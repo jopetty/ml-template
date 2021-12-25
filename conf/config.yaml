@@ -12,11 +12,13 @@ defaults:
   - override hydra/hydra_logging: colorlog
   - override hydra/job_logging: colorlog
 
+mode: fdas
+
 work_dir: ${hydra:runtime.cwd}
 
 ignore_warnings: True
 
 print_config: True
 
-seed: 1122
+seed: null
 name: null
