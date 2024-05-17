@@ -1,16 +1,27 @@
-from typing import Optional
+"""Train models."""
 
-from omegaconf import DictConfig
+import logging
 
-from src.utils import utils
+import fire
+import pyrootutils
+from dotenv import load_dotenv
 
-log = utils.get_logger(__name__)
+logging.basicConfig(
+    format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
+    datefmt="%Y-%d-%m %H:%M:%S",
+    level=logging.INFO,
+)
+
+PROJECT_ROOT = path = pyrootutils.find_root(
+    search_from=__file__, indicator=".project-root"
+)
+
+load_dotenv()
 
 
-def train(cfg: DictConfig) -> Optional[float]:
-    if cfg.get("seed"):
-        utils.set_all_seeds(cfg.seed, workers=True)
-
+def main():
     raise NotImplementedError
 
-    return None
+
+if __name__ == "__main__":
+    fire.Fire(main)
