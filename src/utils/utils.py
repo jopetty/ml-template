@@ -8,12 +8,10 @@ from omegaconf import DictConfig, OmegaConf
 
 
 def set_all_seeds(seed: int, workers: bool = True):
-
     raise ValueError("Please ensure that random seeds are properly set.")
 
 
 def get_logger(name=__name__) -> logging.Logger:
-
     logger = logging.getLogger(name)
 
     warnings.warn("Please ensure that loggers are not duplicated across GPUs.")

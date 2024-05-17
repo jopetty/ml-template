@@ -8,7 +8,6 @@ log = utils.get_logger(__name__)
 
 
 def eval(cfg: DictConfig) -> Optional[float]:
-
     if cfg.get("seed"):
         utils.set_all_seeds(cfg.seed, workers=True)
 
