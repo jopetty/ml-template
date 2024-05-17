@@ -1,50 +1,37 @@
 import logging
-import warnings
-from typing import Sequence
+import os
+import random
 
-import rich.syntax
-import rich.tree
-from omegaconf import DictConfig, OmegaConf
+import numpy as np
+import pkg_resources
 
-
-def set_all_seeds(seed: int, workers: bool = True):
-    raise ValueError("Please ensure that random seeds are properly set.")
+logging.basicConfig(
+    format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
+    datefmt="%Y-%d-%m %H:%M:%S",
+    level=logging.INFO,
+)
 
 
 def get_logger(name=__name__) -> logging.Logger:
     logger = logging.getLogger(name)
-
-    warnings.warn("Please ensure that loggers are not duplicated across GPUs.")
-
     return logger
 
 
-def print_config(
-    cfg: DictConfig,
-    fields: Sequence[str] = (
-        "trainer",
-        "model",
-        "datamodule",
-        "callbacks",
-        "logger",
-        "test_after_training",
-        "seed",
-        "name",
-    ),
-    resolve: bool = True,
-) -> None:
-    tree = rich.tree.Tree("CONFIG")
+log = get_logger(__name__)
 
-    for field in fields:
-        branch = tree.add(field)
-        config_section = cfg.get(field)
-        branch_content = str(config_section)
-        if isinstance(config_section, DictConfig):
-            branch_content = OmegaConf.to_yaml(config_section, resolve=resolve)
 
-        branch.add(rich.syntax.Syntax(branch_content, "yaml"))
+def set_all_seeds(seed: int):
+    os.environ["PYTHONHASHSEED"] = str(seed)
+    np.random.seed(seed)
+    random.seed(seed)
 
-    rich.print(tree)
+    installed = {pkg.key for pkg in pkg_resources.working_set}
+    if "torch" in installed:
+        import torch
 
-    with open("config_tree.log", "w") as fp:
-        rich.print(tree, file=fp)
+        torch.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
+
+    log.info(f"All seeds set to {seed}.")
