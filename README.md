@@ -6,14 +6,19 @@ A template for developing an ML experimentation framework.
 
 The first think you should do is run the `post-install.sh` script to configure the name
 of the project; this script will change every instance of `PROJECT_NAME` to be
-whatever you pass as an argument:
+whatever you pass as an argument. In particular, this will change the name of the
+project in the `pyproject.toml` file and the name of the associated Conda environment.
 
 ```bash
 bash scripts/post-install.sh my_project
 ```
 
-In particular, this will change the name of the project in the `pyproject.toml` file and
-the name of the associated Conda environment.
+Next, you should figure out what tensor backend you want. By default, the
+`pyproject.toml` won't install any, but it provides optional dependency groups for
+`torch` and `flax`, as well as a group for `huggingface`. You can either keep these
+all as optional dependencies and just decide which to use, or move the appropriate
+block into the main dependencies section.
+
 
 ## Local Installation
 
