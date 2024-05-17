@@ -1,6 +1,19 @@
-# ml-research-kit
+# PROJECT_NAME
 
 A template for developing an ML experimentation framework.
+
+## Setup
+
+The first think you should do is run the `post-install.sh` script to configure the name
+of the project; this script will change every instance of `PROJECT_NAME` to be
+whatever you pass as an argument:
+
+```bash
+bash scripts/post-install.sh my_project
+```
+
+In particular, this will change the name of the project in the `pyproject.toml` file and
+the name of the associated Conda environment.
 
 ## Local Installation
 
@@ -15,6 +28,14 @@ To generate a set of locked dependencies, run
 
 ```bash
 uv pip compile pyproject.toml -o requirements.txt
+```
+
+If you need to use Conda instead, you can do so by creating a new environment from
+the provided `environment.yml` file, which will just wrap the `pyproject.toml` file with
+pip:
+
+```bash
+conda env create -f environment.yml
 ```
 
 
