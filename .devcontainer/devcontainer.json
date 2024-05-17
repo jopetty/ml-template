@@ -4,35 +4,29 @@
     "name": "Ubuntu",
     "build": {
         "dockerfile": "Dockerfile",
-        // Update 'VARIANT' to pick an Ubuntu version: hirsute, focal, bionic
-        // Use hirsute or bionic on local arm64/Apple Silicon.
-        "args": { "VARIANT": "hirsute" }
+        "context": ".."
     },
 
-    // Set *default* container specific settings.json values on container create.
-    "settings": {
-        "python.defaultInterpreterPath": "/usr/local/bin/miniconda3/bin/python",
-        "python.linting.enabled": true,
-        "python.linting.pylintEnabled": true,
-        "editor.tabSize": 4,
-        "editor.rulers": [88],
-        "editor.detectIndentation":false,
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/local/bin/miniconda3/bin/python",
+                "python.linting.enabled": true,
+                "python.linting.pylintEnabled": true,
+                "editor.tabSize": 4,
+                "editor.rulers": [88],
+                "editor.detectIndentation":false
+            },
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance"
+            ]
+        }
     },
-
-
-    // Add the IDs of extensions you want installed when the container is created.
-    "extensions": [
-        "ms-python.python",
-        "ms-python.vscode-pylance"
-    ],
-
-    // Use 'forwardPorts' to make a list of ports inside the container available locally.
-    // "forwardPorts": [],
 
     // Use 'postCreateCommand' to run commands after the container is created.
-    // "postCreateCommand": "uname -a",
-    "postStartCommand": ["pre-commit", "install"],
+    "postCreateCommand": "uname -a"
 
     // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
-    "remoteUser": "vscode"
+    // "remoteUser": "vscode"
 }
