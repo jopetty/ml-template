@@ -19,7 +19,6 @@ Next, you should figure out what tensor backend you want. By default, the
 all as optional dependencies and just decide which to use, or move the appropriate
 block into the main dependencies section.
 
-
 ## Local Installation
 
 All python dependencies are provided in `pyproject.toml`. Install using `uv`:
@@ -42,7 +41,6 @@ pip:
 ```bash
 conda env create -f environment.yml
 ```
-
 
 ## Docker / Devcontainer
 

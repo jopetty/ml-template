@@ -1,6 +1,7 @@
 import logging
 import os
 import random
+from pprint import pformat
 
 import numpy as np
 import pkg_resources
@@ -20,7 +21,9 @@ def get_logger(name=__name__) -> logging.Logger:
 log = get_logger(__name__)
 
 
-def set_all_seeds(seed: int):
+def set_all_seeds(seed: int) -> dict[str, int]:
+    rng_seed_dict = {"provided_seed": seed}
+
     os.environ["PYTHONHASHSEED"] = str(seed)
     np.random.seed(seed)
     random.seed(seed)
@@ -34,4 +37,12 @@ def set_all_seeds(seed: int):
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
 
-    log.info(f"All seeds set to {seed}.")
+    if "jax" in installed:
+        import jax
+
+        root_key = jax.random.PRNGKey(seed)
+        rng_seed_dict["root_key"] = root_key
+
+    log.info(f"Initialized RNGs with following parameters: {pformat(rng_seed_dict)}")
+
+    return rng_seed_dict

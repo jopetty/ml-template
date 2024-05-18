@@ -26,7 +26,8 @@ load_dotenv()
 def main(
     seed: int = randint(0, 2**32 - 1),
 ):
-    set_all_seeds(seed)
+    rng_seeds = set_all_seeds(seed)
+    print(rng_seeds)
 
     pass
 
